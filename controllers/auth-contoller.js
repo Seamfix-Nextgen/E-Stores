@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const CatchAsync = require("../utils/catch-async");
 const User = require("../models/User");
+const User = require("../models/User");
+const ErrorObject = require("../utils/error");
 
 const { JWT_EXPIRES_IN, JWT_SECRET, JWT_COOKIE_EXPIRES_IN, NODE_ENV } =
   process.env;
@@ -36,14 +38,32 @@ const creatAndSendToken = CatchAsync(async (user, statusCode, res) => {
 });
 
 // sign up user
-exports.signup = CatchAsync(async (req, res, next) => {
-  const { email, fullName, password, passwordConfirm, role } = req.body;
+exports.signUp = CatchAsync(async(req,res, next)=>{
+  const { email, fullName, password, confirmPassword, role} = req.body;
   const user = await User.create({
     email,
     fullName,
     password,
-    passwordConfirm,
-  });
-
-  creatAndSendTokenuser(user, 201, res);
+    confirmPassword,
+    role,
 });
+  createAndSendTokenuser(user, 201, res);
+});
+
+
+
+//signIn user
+exports.signIn = CatchAsync(async(req,res,next)=>{
+  const {email, passWord} = req.body;
+  if(!email || !passWord) {
+    return next(
+      new ErrorObject("please enter an email and a password", 401));
+  }
+const user = await User.findOne({email}).select ("+password")
+const confirmPassword = await bcrypt.compare(passWord, user.password)
+if(!confirmPassword||!user){
+  return next(
+    new ErrorObject("invalid email or password", 401));
+}
+createAndSendToken(user, 200, res);
+})

@@ -82,6 +82,7 @@ exports.getOneUser = CatchAsync(async (req, res, next) => {
       return next(new ErrorObject("You are not authorised", 403));
     }
   }
+  
   res.status(200).json({
     status: "success",
     data: {
