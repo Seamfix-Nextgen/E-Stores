@@ -15,7 +15,7 @@ const signToken = (id) => {
   });
 };
 
-const creatAndSendToken = CatchAsync(async (user, statusCode, res) => {
+const createAndSendToken = CatchAsync(async (user, statusCode, res) => {
   const token = await signToken(user._id);
   const cookieoptions = {
     exprires: new Date(
