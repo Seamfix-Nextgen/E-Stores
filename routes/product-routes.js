@@ -1,36 +1,21 @@
-const express = require("express");
-const { protect, restrictTo } = require("../controllers/auth-controller");
 const {
-  getAllProduct,
-  createProduct,
-  updateProduct,
+  createAProduct,
   deleteProduct,
-  getOneProduct,
-  uploadProductImage,
-  resizeImage,
-} = require("../controllers/product-controllers");
+  listByCategories,
+  listproductByShop,
+  productByID,
+  updateProduct,
+  listAllProducts,
+  listbyLatest,
+} = require("../controllers/product.controller");
+
+const express = require("express");
+
 const router = express.Router();
 
-router
-  .route("/")
-  .post(
-    protect,
-    restrictTo("admin"),
-    uploadProductImage,
-    resizeImage,
-    createProduct
-  )
-  .get(getAllProduct);
-router
-  .route("/:id")
-  .delete(protect, restrictTo("admin"), deleteProduct)
-  .patch(
-    protect,
-    restrictTo("admin"),
-    uploadProductImage,
-    resizeImage,
-    updateProduct
-  )
-  .get(getOneProduct);
+router.route("/").post(createAProduct).get(listAllProducts);
+router.route("/:productID").delete(deleteProduct).patch(updateProduct).get(productByID);
+router.route("/:category").get(listByCategories);
+router.route("/:shop").get(listproductByShop);
+router.route("/latest").get(listbyLatest);
 
-module.exports = router;

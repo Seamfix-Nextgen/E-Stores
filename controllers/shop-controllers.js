@@ -1,7 +1,6 @@
 const User = require("../models/user");
 const Shop = require("../models/Shop");
 const Product = require("../models/Product");
-const { response } = require("express");
 
 const createShop = async (req, res) => {
   try {
@@ -60,8 +59,8 @@ const editShop = async (req, res) => {
     // only shop owners can edit the store
     const { name, description } = req.body;
     const { userID, shopID } = req.params;
-    const shop = await Shop.findOne(shopID);
-    if (shop.owner != userId) {
+    const shop = await Shop.findById(shopID);
+    if (shop.owner !== userID) {
       return response
         .status(401)
         .json({ error: true, message: "unauthorized access" });

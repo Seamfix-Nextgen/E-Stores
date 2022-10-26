@@ -117,7 +117,7 @@ const listproductByShop = async (req, res) => {
     const { shopID } = req.params;
     const products = Product.find({ "shop._id": shopID });
     if (!products)
-      return res.status(404).json({ error: true, message: "shop not found" });
+      return res.status(404).json({ error: true, message: "No products in store" });
     return res.status(200).json({
       error: false,
       message: "products found",
