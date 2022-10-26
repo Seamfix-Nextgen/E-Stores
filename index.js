@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const fs = require("fs");
 const path = require("path");
+const cors = require("cors");
 const morgan = require("morgan");
 const { model } = require("mongoose");
 const ErrorObject = require("./utils/error");
@@ -11,6 +12,8 @@ const cartRouter = require("./routes/cart-routes");
 const orderRoutes = rquire("./routes/order-routes");
 
 app.use(express.json());
+app.use(cors());
+
 
 let accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
   flags: "a",
