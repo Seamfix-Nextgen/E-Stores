@@ -1,10 +1,15 @@
 const express = require("express");
-const { protect, restrictTo } = "../controllers/auth-controllers";
+const { protect,
+     restrictTo
+     } = ("../controllers/auth-controllers");
 
-const { getOrder, getAllOrder } = "../controllers/order-controllers";
+const { getOrder,
+     getAllOrder
+     } = ("../controllers/order-controllers");
+
 const router = express.Router();
 
-router.get("/", protect, restrictTo("admin"), getAllOrder);
 router.get("/:id", protect, getOrder);
+router.get("/", protect, restrictTo("admin"), getAllOrder);
 
 module.exports = router;
