@@ -9,11 +9,10 @@ const ErrorObject = require("./utils/error");
 const productRouter = require("./routes/product-routes");
 const userRouter = require("./routes/user-routes");
 const cartRouter = require("./routes/cart-routes");
-const orderRoutes = rquire("./routes/order-routes");
+const orderRoutes = require("./routes/order-routes");
 
 app.use(express.json());
 app.use(cors());
-
 
 let accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
   flags: "a",

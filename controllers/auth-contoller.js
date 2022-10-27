@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const CatchAsync = require("../utils/catch-async");
-const User = require("../models/User");
+const User = require("../models/User-model");
 const ErrorObject = require("../utils/error");
 
 const { JWT_EXPIRES_IN, JWT_SECRET, JWT_COOKIE_EXPIRES_IN, NODE_ENV } =
@@ -16,7 +16,7 @@ const signToken = (id) => {
 
 const createAndSendToken = CatchAsync(async (user, statusCode, res) => {
   const token = await signToken(user._id);
-  const cookieoptions = {
+  const cookieOptions = {
     exprires: new Date(
       Date.now() + JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
@@ -38,12 +38,12 @@ const createAndSendToken = CatchAsync(async (user, statusCode, res) => {
 
 // sign up user
 exports.signUp = CatchAsync(async (req, res, next) => {
-  const { email, fullName, password, confirmPassword, role } = req.body;
+  const { email, fullName, password, passwordConfirm, role } = req.body;
   const user = await User.create({
     email,
     fullName,
     password,
-    confirmPassword,
+    passwordConfirm,
     role,
   });
   createAndSendToken(user, 201, res);
@@ -56,8 +56,8 @@ exports.signIn = CatchAsync(async (req, res, next) => {
     return next(new ErrorObject("Please enter your email and password", 400));
   }
   const user = await User.findOne({ email }).select("+password");
-  const confirmPassword = await bcrypt.compare(password, user.password);
-  if (!confirmPassword || !user) {
+  const newPasswordConfirm = await bcrypt.compare(password, user.password);
+  if (!newPasswordConfirm || !user) {
     return next(new ErrorObject("Invalid email or password", 401));
   }
 

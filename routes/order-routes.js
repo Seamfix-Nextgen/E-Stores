@@ -1,12 +1,6 @@
 const express = require("express");
-const { protect,
-     restrictTo
-     } = ("../controllers/auth-controllers");
-
-const { getOrder,
-     getAllOrder
-     } = ("../controllers/order-controllers");
-
+const { protect, restrictTo } = require("../controllers/auth-contoller");
+const { getOrder, getAllOrder } = require("../controllers/order-controllers");
 const router = express.Router();
 
 router.get("/:id", protect, getOrder);

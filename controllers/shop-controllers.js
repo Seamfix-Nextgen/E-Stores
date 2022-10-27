@@ -1,6 +1,6 @@
-const User = require("../models/user");
-const Shop = require("../models/Shop");
-const Product = require("../models/Product");
+const User = require("../models/User-model");
+const Shop = require("../models/shop.model");
+const Product = require("../models/product.model");
 
 const createShop = async (req, res) => {
   try {

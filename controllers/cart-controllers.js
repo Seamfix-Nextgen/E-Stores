@@ -1,6 +1,6 @@
 const Cart = require("../models/Cart");
 const Order = require("../models/Order");
-const Product = require("../models/Product");
+const Product = require("../models/product.model");
 const catchAsync = require("../utils/catch-async");
 const ErrorObject = require("../utils/error");
 const QueryMethod = require("../utils/query");

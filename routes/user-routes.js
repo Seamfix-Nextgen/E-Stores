@@ -1,16 +1,19 @@
 const express = require("express");
 const {
-  signIn,
   signUp,
+  signIn,
+  protect,
+  restrictTo,
   forgotPassword,
   resetPassword,
   updatePassword,
-  protect,
-  restrictTo,
-} = "../controllers/auth-controllers";
-
-const { deleteUser, updateUser, getOneUser, getAllUser } =
-  "../controllers/user-controllers";
+} = require("../controllers/auth-contoller");
+const {
+  getAllUser,
+  deleteUser,
+  updateUser,
+  getOneUser,
+} = require("../controllers/user-controllers");
 const router = express.Router();
 
 router.post("/signUp", signUp);

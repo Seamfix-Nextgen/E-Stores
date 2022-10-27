@@ -1,13 +1,12 @@
 const express = require("express");
-const { protect, restrictTo } = require("../controllers/auth-controller");
+const { protect, restrictTo } = require("../controllers/auth-contoller");
 const {
   getAllCarts,
   createCart,
+  getOneCart,
   updateCart,
   deleteCart,
-  getOneCart,
 } = require("../controllers/cart-controllers");
-
 const router = express.Router();
 
 router

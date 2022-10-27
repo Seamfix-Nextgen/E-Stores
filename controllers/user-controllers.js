@@ -1,4 +1,4 @@
-const User = require("../models/User.js");
+const User = require("../models/User-model.js");
 const CatchAsync = require("../utils/catch-async.js");
 const ErrorObject = require("../utils/error.js");
 const QueryMethod = require("../utils/query.js");
@@ -13,13 +13,12 @@ exports.deleteUser = CatchAsync(async (req, res, next) => {
   }
   if (req.user.role !== "admin") {
     if (req.user.id !== req.params.id) {
-      return next(
-        new ErrorObject("You are not authorised", 403));
+      return next(new ErrorObject("You are not authorised", 403));
     }
   }
   await User.findByIdAndDelete(req.params.id);
   res.status(204).json({
- status: "success",
+    status: "success",
   });
 });
 
@@ -32,13 +31,11 @@ exports.updateUser = CatchAsync(async (req, res, next) => {
     );
   }
   if (req.user.id !== req.params.id) {
-    return next(
-      new ErrorObject("You are not authorised", 403));
+    return next(new ErrorObject("You are not authorised", 403));
   }
-  const email = 
-  req.body.email === undefined ? user.email : req.body.email;
+  const email = req.body.email === undefined ? user.email : req.body.email;
   const fullName =
-  req.body.fullName === undefined ? user.fullName : req.body.fullName;
+    req.body.fullName === undefined ? user.fullName : req.body.fullName;
   const update = { email, fullName };
   const updatedUser = await User.findByIdAndUpdate(req.params.id, update, {
     new: true,
@@ -82,7 +79,7 @@ exports.getOneUser = CatchAsync(async (req, res, next) => {
       return next(new ErrorObject("You are not authorised", 403));
     }
   }
-  
+
   res.status(200).json({
     status: "success",
     data: {
