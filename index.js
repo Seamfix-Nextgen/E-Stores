@@ -18,10 +18,10 @@ let accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
 // setup the logger
 app.use(morgan("combined", { stream: accessLogStream }));
 
-app.use("/api/v1/user", userRouter);
+app.use("/api/v1/users", userRouter);
 app.use("/api/v1/products", productRouter);
-app.use("/api/v1/user", cartRouter);
-app.use("/api/v1/user", orderRoutes);
+app.use("/api/v1/carts", cartRouter);
+app.use("/api/v1/orders", orderRoutes);
 
 app.all("*", (req, res, next) => {
   const err = new ErrorObject(`http:localhost:6000${req.url} not found`, 404);
