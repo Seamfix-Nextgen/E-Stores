@@ -7,7 +7,7 @@ const {
   updateProduct,
   listAllProducts,
   listbyLatest,
-} = require("../controllers/product.controller");
+} = require("../controllers/product-controller");
 
 const express = require("express");
 
