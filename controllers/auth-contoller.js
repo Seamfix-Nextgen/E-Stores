@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const CatchAsync = require("../utils/catch-async");
 const User = require("../models/User");
-const User = require("../models/User");
 const ErrorObject = require("../utils/error");
 
 const { JWT_EXPIRES_IN, JWT_SECRET, JWT_COOKIE_EXPIRES_IN, NODE_ENV } =
