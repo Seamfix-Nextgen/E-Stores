@@ -1,4 +1,4 @@
-const {createShop, editShop, getShopByName, getAllShops}= require('../controllers/shop.controller')
+const {createShop, editShop, getShopByName, getAllShops}= require('../controllers/shop-controllers')
 const express= require('express')
 const router = express.Router()
 

@@ -15,7 +15,7 @@ const signToken = (id) => {
   });
 };
 
-const creatAndSendToken = CatchAsync(async (user, statusCode, res) => {
+const createAndSendToken = CatchAsync(async (user, statusCode, res) => {
   const token = await signToken(user._id);
   const cookieoptions = {
     exprires: new Date(
@@ -47,7 +47,7 @@ exports.signUp = CatchAsync(async (req, res, next) => {
     confirmPassword,
     role,
   });
-  createAndSendTokenuser(user, 201, res);
+  createAndSendToken(user, 201, res);
 });
 
 // Sign In User

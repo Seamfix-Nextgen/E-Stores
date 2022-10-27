@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Seamfix-Nextgen/E-Stores#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
@@ -30,6 +31,7 @@
     "validator": "^13.7.0"
   },
   "devDependencies": {
+    "@types/validator": "^13.7.9",
     "nodemon": "^2.0.20"
   }
 }

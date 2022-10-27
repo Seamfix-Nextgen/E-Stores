@@ -1,6 +1,6 @@
 const User = require("../models/user");
-const Shop = require("../models/shop.model");
-const Product = require("../models/product.model");
+const Shop = require("../models/shop");
+const Product = require("../models/product");
 
 //   create,
 //   productByID,
