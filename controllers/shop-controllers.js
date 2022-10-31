@@ -6,23 +6,13 @@ const createShop = async (req, res) => {
   try {
     const { name, description, image } = req.body;
     const { userID } = req.params;
-    const shopOwner = await User.findById(userID);
+    const shopOwner = req.user;
     const shopExists = await Shop.findOne({ name: name });
-
-    // check if user role is shop-owner
-
-    if (shopOwner.role !== "admin" || "shop-owner") {
-      return res
-        .status(401)
-        .json({ error: true, message: "unauthorized access" });
-    }
-
-    // check if shop already exist in the db
 
     if (shopExists)
       return res.status(409).json({
         error: true,
-        message: `a shop with this name '${ShopExists.name}' already exist`,
+        message: `a shop with this name '${shopExists.name}' already exist`,
       });
 
     // create a new shop
@@ -30,7 +20,7 @@ const createShop = async (req, res) => {
     const newStore = await Shop.create({
       name,
       description,
-      owner: userID,
+      owner: shopOwner._id,
       image,
     });
     if (newStore) {
@@ -57,17 +47,18 @@ const createShop = async (req, res) => {
 const editShop = async (req, res) => {
   try {
     // only shop owners can edit the store
-    const { name, description } = req.body;
-    const { userID, shopID } = req.params;
+    const { name, description, owner } = req.body;
+    const { shopID } = req.params;
     const shop = await Shop.findById(shopID);
-    if (shop.owner !== userID) {
-      return response
+    console.log(req.user._id);
+    if (shop.owner._id !== req.user._id) {
+      return res
         .status(401)
         .json({ error: true, message: "unauthorized access" });
     }
     const updatedShop = await Shop.findByIdAndUpdate(
       shopID,
-      { name, description },
+      { name, description, owner },
       { new: true }
     );
 
@@ -94,7 +85,9 @@ const getShopByName = async (req, res) => {
 
   try {
     const { name } = req.query;
-    const shop = await Shop.find({ name });
+
+    const shop = await Shop.findOne({ name: name });
+
     if (shop) {
       return res.status(200).json({
         error: false,
@@ -138,18 +131,27 @@ const getAllShops = async (req, res) => {
 
 const deleteShop = async (req, res) => {
   const { shopID } = req.params;
-  const userID = req.token.id;
   //  check if shop to be deleted exists
-  const storeToBeDeleted = Shop.findById(shopID);
-  if (!storeToBeDeleted)
-    return res.status(404).json({ error: true, message: "shop not found" });
-  // validate the owner of the store (only store owners can delete store)
-  const validStoreOwner = User.findById(userID);
-  if (!validStoreOwner || validStoreOwner._id == storeToBeDeleted.owner)
-    return response
-      .status(401)
-      .json({ error: true, message: "unauthorized access" });
-};
-storeToBeDeleted;
+  const deletedShop = await Shop.findOneAndDelete({ _id: shopID, owner: req.user })
+    .then((result) => {
+      if(!result) return  res.status(404).json({ error: true, message: "shop not found" });
 
-module.exports = { createShop, editShop, getShopByName, getAllShops };
+      return res.status(200).json({
+        error: false,
+        message: "shop deleted successfully",
+        data: result,
+      });
+    })
+    .catch((error) => {
+      console.log(error?.message);
+      return res.status(500).json({ error: true, message: "oops something went wrong" });
+    });
+};
+
+module.exports = {
+  createShop,
+  editShop,
+  getShopByName,
+  getAllShops,
+  deleteShop,
+};

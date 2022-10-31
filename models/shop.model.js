@@ -5,6 +5,7 @@ const shopSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: "Name is required",
+      unique: true,
     },
     image: {
       type: String,
@@ -14,10 +15,10 @@ const shopSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    owner: { type: mongoose.Schema.ObjectId, ref: "User" },
+    owner: { type: mongoose.Schema.ObjectId, ref: "User", autopopulate: true },
   },
   { timestamps: true }
 );
-
+shopSchema.plugin(require("mongoose-autopopulate"));
 const Shop = mongoose.model("Shop", shopSchema);
 module.exports = Shop;

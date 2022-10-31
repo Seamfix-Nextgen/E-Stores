@@ -1,10 +1,17 @@
-const {createShop, editShop, getShopByName, getAllShops}= require('../controllers/shop-controllers')
-const express= require('express')
-const router = express.Router()
+const {
+  createShop,
+  editShop,
+  getShopByName,
+  getAllShops,
+  deleteShop,
+} = require("../controllers/shop-controllers");
+const { protect, restrictTo } = require("../controllers/auth-contoller");
+const express = require("express");
+const router = express.Router();
 
+router.route("/new").post(protect, restrictTo("shopOwner"), createShop);
+router.route("/all").get(getAllShops);
+router.route("/shop/").get(getShopByName);
+router.route("/:shopID").put(protect, editShop).delete(protect, deleteShop);
 
-router.route("/shops/create").post(createShop)
-router.route("/shops/:shopID").put(editShop);
-router.route("/shops/").get(getShopByName);
-router.route("/shops").get(getAllShops)
-
+module.exports = router;
