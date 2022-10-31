@@ -23,7 +23,7 @@ app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/products", productRouter);
-app.use("/api/v1/shops", shopRouter);
+app.use("/api/v1/shops", shopRoutes);
 app.use("/api/v1/carts", cartRouter);
 app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/stores", shopRoutes);
