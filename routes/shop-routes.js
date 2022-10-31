@@ -3,15 +3,34 @@ const {
   editShop,
   getShopByName,
   getAllShops,
+  uploadShopImage,
+  resizeImage,
   deleteShop,
 } = require("../controllers/shop-controllers");
-const { protect, restrictTo } = require("../controllers/auth-contoller");
 const express = require("express");
+const { protect, restrictTo } = require("../controllers/auth-contoller");
 const router = express.Router();
 
-router.route("/new").post(protect, restrictTo("shopOwner"), createShop);
-router.route("/all").get(getAllShops);
-router.route("/shop/").get(getShopByName);
-router.route("/:shopID").put(protect, editShop).delete(protect, deleteShop);
+router
+  .route("/:shopID")
+  .patch(
+    protect,
+    restrictTo("admin", "shopOwner"),
+    uploadShopImage,
+    resizeImage,
+    editShop
+  )
+  .delete(protect, restrictTo("admin", "shopOwner"), deleteShop);
+router
+  .route("/")
+  .post(
+    protect,
+    restrictTo("admin", "shopOwner"),
+    uploadShopImage,
+    resizeImage,
+    createShop
+  )
+  .get(getAllShops);
+router.route("/: name").get(getShopByName);
 
 module.exports = router;

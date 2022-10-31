@@ -1,6 +1,11 @@
 const Order = require("../models/Order");
 const CatchAsync = require("../utils/catch-async");
 const QueryMethod = require("../utils/query");
+const express = require("express")
+const cart = require("../models/Cart")
+const flutterwave = require("flutterwave-node-v3") 
+fs = require("fs")
+const nodemailer = require("nodemailer")
 
 exports.getOrder = CatchAsync(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
@@ -29,3 +34,11 @@ exports.getAllOrder = CatchAsync(async (req, res, next) => {
     },
   });
 });
+
+
+exports.checkout = CatchAsync(async (req, res,next) =>{
+
+  
+
+})
+
