@@ -9,20 +9,29 @@ const {
   productByID,
   listproductByShop,
   listbyLatest,
+  createManyProducts,
 } = require("../controllers/product.controller");
 const router = express.Router();
 
+
+
+router.route("/latest").get(listbyLatest);
+
 router
   .route("/")
-  .post(protect, restrictTo("admin"), createAProduct)
+  .post(protect, restrictTo("shopOwner"), createAProduct)
   .get(listAllProducts);
 router
-  .route("/:id")
+  .route("/many")
+  .post(protect, restrictTo(  "shopOwner"), createManyProducts);
+
+router
+  .route("/:productID")
   .delete(protect, restrictTo("admin"), deleteProduct)
-  .patch(protect, restrictTo("admin"), updateProduct)
+  .put(protect, restrictTo("shopOwner"), updateProduct)
   .get(productByID);
-router.route("/:category").get(listByCategories);
+
+router.route("/categories/:category").get(listByCategories);
 router.route("/:shop").get(listproductByShop);
-router.route("/:latest").get(listbyLatest);
 
 module.exports = router;

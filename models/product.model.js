@@ -6,9 +6,12 @@ const ProductSchema = new mongoose.Schema(
       trim: true,
       required: "Name is required",
     },
-    image: {
-      type: String,
-    },
+    images: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
     description: {
       type: String,
       trim: true,
@@ -25,10 +28,12 @@ const ProductSchema = new mongoose.Schema(
       required: "Price is required",
     },
 
-    shop: { type: mongoose.Schema.ObjectId, ref: "Shop" },
+    shop: { type: mongoose.Schema.ObjectId, ref: "Shop", autopopulate: true },
   },
   { timestamps: true }
 );
+
+ProductSchema.plugin(require("mongoose-autopopulate"));
 const Product = mongoose.model("Product", ProductSchema);
 
 module.exports = Product;

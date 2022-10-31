@@ -2,54 +2,59 @@ const User = require("../models/User-model");
 const Shop = require("../models/shop.model");
 const Product = require("../models/product.model");
 
-//   create,
-//   productByID,
-//   photo,
-//   defaultPhoto,
-//   read,
-//   update,
-//   remove,
-//   listByShop,
-//   listLatest,
-//   listRelated,
-//   listCategories,
-//   list
+
+const createManyProducts = async (req, res) => {
+  try {
+    let products = Product.insertMany(req.body)
+      .then(() => {
+        return res
+          .status(200)
+          .json({ error: false, message: "product quantity updated",data: products });
+      })
+      .catch(() => {
+        return res
+          .status(400)
+          .json({ error: true, message: "bad request" });
+      });
+  } catch (error) {}
+};
 
 const createAProduct = async (req, res) => {
   try {
-    const { name, image, description, category, quantity, price } = req.body;
-    const shopOwner = await User.findById(userID);
-    const shop = await Shop.findOne({ "owner.fullName": shopOwner.fullName });
+    const { name, images, description, category, quantity, price } = req.body;
+    // const shopOwner = await User.findById(userID);
+    // const shop = await Shop.findOne({ "owner.fullName": shopOwner.fullName });
     const productExists = await Product.findOne({ name });
 
-    if (!shopOwner)
-      return res
-        .status(401)
-        .json({ error: true, message: "unauthorized access" });
-    if (!shop)
-      return res
-        .status(401)
-        .json({ error: true, message: "unauthorized access" });
+    // if (!shopOwner)
+    //   return res
+    //     .status(401)
+    //     .json({ error: true, message: "unauthorized access" });
+    // if (!shop)
+    //   return res
+    //     .status(401)
+    //     .json({ error: true, message: "unauthorized access" });
 
     if (productExists) {
       productExists.quantity += parseInt(quantity);
       await productExists.save();
+      console.log(productExists);
       return res
         .status(200)
         .json({ error: false, message: "product quantity updated" });
     } else {
-      const newProduct = new Product({
+      let newProduct = await new Product({
         name,
-        image,
+        images,
         description,
         category,
         quantity,
         price,
       });
-      newProduct = await newProduct.populate("shop").execPopulate();
+      // newProduct = await newProduct.populate("shop").execPopulate();
 
       if (newProduct) {
-        newProduct = await newProduct.save();
+        await newProduct.save();
         return res
           .status(200)
           .json({ error: false, message: "product added to your shop" });
@@ -62,8 +67,8 @@ const createAProduct = async (req, res) => {
 
 const productByID = async (req, res) => {
   try {
-    const { producID } = req.params;
-    const product = Product.findOne(producID);
+    const { productID } = req.params;
+    const product = await Product.findById(productID);
     if (!product)
       return res
         .status(404)
@@ -85,12 +90,12 @@ const productByID = async (req, res) => {
 const updateProduct = async (req, res) => {
   try {
     // only shop owner can update product in their shop
-    const { producID } = req.params;
-    const { userID } = req.params;
-    const { name, image, description, category, quantity, price } = req.body;
+    const { productID } = req.params;
+    // const { userID } = req.params;
+    const { name, images, description, category, quantity, price } = req.body;
     const productExists = await Product.findOneAndUpdate(
-      { _id: producID, "shop.owner._id": userID },
-      { name, image, description, category, quantity, price },
+      { _id: productID },
+      { name, images, description, category, quantity, price },
       { new: true }
     );
     if (!productExists) {
@@ -164,7 +169,8 @@ const deleteProduct = async (req, res) => {
 const listByCategories = async (req, res) => {
   try {
     const { category } = req.params;
-    const products = Product.find({ category: category });
+    
+    const products = await Product.find({ category: category });
     if (!products) {
       return res
         .status(404)
@@ -185,7 +191,7 @@ const listByCategories = async (req, res) => {
 };
 const listAllProducts = async (req, res) => {
   try {
-    const products = Product.find({});
+    const products = await Product.find({});
     if (!products)
       return res
         .status(404)
@@ -205,7 +211,7 @@ const listAllProducts = async (req, res) => {
 };
 const listbyLatest = async (req, res) => {
   try {
-    const products = Product.find({}).sort({ updatedAt: -1 });
+    const products = await Product.find({}).sort({ updatedAt: -1 });
     if (!products)
       return res
         .status(404)
@@ -226,6 +232,7 @@ const listbyLatest = async (req, res) => {
 
 module.exports = {
   createAProduct,
+  createManyProducts,
   productByID,
   updateProduct,
   listproductByShop,
