@@ -9,6 +9,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "A user must have a name"],
     },
+
+   phoneNumber:{
+      type: String,
+      match: [/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/, 'Enter a valid phone number']
+      
+  },
     email: {
       type: String,
       required: [true, "A user must have an email"],
