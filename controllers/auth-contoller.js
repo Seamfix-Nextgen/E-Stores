@@ -107,7 +107,7 @@ exports.forgotPassword = CatchAsync(async (req, res, next) => {
   }
   // 2. Generate random reset token
   const resetToken = user.createPasswordResetToken();
-  user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
 
   // 3. Send token to the email addess
   const resetUrl = `${req.protocol}://${req.get(
@@ -129,9 +129,9 @@ exports.forgotPassword = CatchAsync(async (req, res, next) => {
       resetUrl,
     });
   } catch (err) {
-    (user.passwordResetToken = undefined),
-      (user.passwordTokenExpires = undefined),
-      await user.save();
+    user.passwordResetToken = undefined;
+    user.passwordTokenExpires = undefined;
+    await user.save();
     next(new ErrorObject("Error while sending the token to your mail", 500));
   }
 });
