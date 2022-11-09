@@ -11,11 +11,8 @@ const userRouter = require("./routes/user-routes");
 const cartRouter = require("./routes/cart-routes");
 const orderRoutes = require("./routes/order-routes");
 const shopRoutes = require("./routes/shop-routes");
-<<<<<<< HEAD
 const reviewRoutes = require("./routes/review.routes")
-=======
 const ErrorHandler = require("./controllers/error-controllers");
->>>>>>> 716756300d7fe0f0b17e6febecda47629789b971
 
 app.use(express.json());
 app.use(cors());
