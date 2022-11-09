@@ -1,0 +1,40 @@
+const Review = require("../models/review.model");
+const Product = require("../models/product.model");
+const CatchAsync = require("../utils/catch-async");
+const createReview = async (req, res) => {
+  Review.create({
+    ...req.body,user: req.user._id
+  })
+    .then((savedReview) => {
+
+      return Product.findOneAndUpdate(
+        { _id: req.params.id },
+        {  $push: { reviews: savedReview._id } },
+        { new: true }
+      );
+    })
+    .then((updatedProduct) => {
+        let averageReview =
+          updatedProduct.reviews.reduce((total, currentValue) => {
+            return total + currentValue.rate;
+          }, 0) / updatedProduct.reviews.length;
+          
+          updatedProduct.averageReview = averageReview.toFixed(2);
+          updatedProduct.save()
+       return res.status(201).json(updatedProduct)})
+    .catch((err) => res.status(400).send({ err: err.message }));
+};
+
+const getAverageReviews = CatchAsync(async (req, res) => {
+  const productID = req.params.id;
+  const product = await Product.findById(productID);
+  if (!product)
+    return res.status(404).send({ error: true, message: "product not found" });
+  const averageReview =
+    product.reviews.reduce((total, currentValue) => {
+      return total + currentValue.rate;
+    }, 0) / product.reviews.length;
+
+  return res.status(200).json({averageReview,...product});
+})
+module.exports = { createReview, getAverageReviews };
