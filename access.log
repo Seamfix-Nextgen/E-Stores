@@ -14,6 +14,7 @@
 ::1 - - [27/Oct/2022:14:53:58 +0000] "POST /api/v1/users/forgot-password HTTP/1.1" 500 569 "-" "PostmanRuntime/7.29.2"
 ::1 - - [27/Oct/2022:14:55:48 +0000] "GET /api/v1/users/635a9b084cba9a3b7dae4976 HTTP/1.1" 200 184 "-" "PostmanRuntime/7.29.2"
 ::1 - - [27/Oct/2022:14:56:46 +0000] "GET /api/v1/users HTTP/1.1" 200 338 "-" "PostmanRuntime/7.29.2"
+<<<<<<< HEAD
 ::1 - - [01/Nov/2022:11:00:02 +0000] "GET /api/v1/products/ HTTP/1.1" 200 71161 "-" "PostmanRuntime/7.29.2"
 ::1 - - [01/Nov/2022:12:23:22 +0000] "POST /api/v1/users/signIn HTTP/1.1" 500 372 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
 ::1 - - [01/Nov/2022:12:23:50 +0000] "POST /api/v1/users/signIn HTTP/1.1" 500 372 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
@@ -436,3 +437,16 @@
 ::1 - - [09/Nov/2022:14:37:56 +0000] "POST /api/v1/users/signIn HTTP/1.1" 200 363 "-" "PostmanRuntime/7.29.2"
 ::1 - - [09/Nov/2022:14:38:08 +0000] "POST /api/v1/users/signIn HTTP/1.1" 401 247 "-" "PostmanRuntime/7.29.2"
 ::1 - - [09/Nov/2022:14:48:43 +0000] "POST /api/v1/users/signIn HTTP/1.1" 401 247 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+=======
+::1 - - [01/Nov/2022:16:57:04 +0000] "POST /api/v1/users/signin HTTP/1.1" 200 364 "-" "PostmanRuntime/7.29.2"
+::1 - - [01/Nov/2022:16:57:31 +0000] "POST /api/v1/stores HTTP/1.1" 200 482 "-" "PostmanRuntime/7.29.2"
+::1 - - [01/Nov/2022:17:00:54 +0000] "POST /api/v1/stores HTTP/1.1" 409 75 "-" "PostmanRuntime/7.29.2"
+::1 - - [01/Nov/2022:17:01:19 +0000] "GET /api/v1/products HTTP/1.1" 200 71161 "-" "PostmanRuntime/7.29.2"
+::1 - - [01/Nov/2022:17:11:58 +0000] "POST /api/v1/products HTTP/1.1" 200 54 "-" "PostmanRuntime/7.29.2"
+::1 - - [01/Nov/2022:17:25:29 +0000] "GET /api/v1/products HTTP/1.1" 200 71619 "-" "PostmanRuntime/7.29.2"
+::1 - - [01/Nov/2022:17:27:27 +0000] "DELETE /api/v1/products/6361535eae7e313b6f953917 HTTP/1.1" 403 769 "-" "PostmanRuntime/7.29.2"
+::1 - - [01/Nov/2022:17:35:44 +0000] "DELETE /api/v1/products/6361535eae7e313b6f953917 HTTP/1.1" 403 769 "-" "PostmanRuntime/7.29.2"
+::1 - - [09/Nov/2022:14:57:45 +0000] "POST /api/v1/users/signin HTTP/1.1" 200 364 "-" "PostmanRuntime/7.29.2"
+::1 - - [09/Nov/2022:14:57:55 +0000] "POST /api/v1/users/signin HTTP/1.1" 401 267 "-" "PostmanRuntime/7.29.2"
+::1 - - [09/Nov/2022:15:04:09 +0000] "POST /api/v1/users/signin HTTP/1.1" 401 261 "-" "PostmanRuntime/7.29.2"
+>>>>>>> 716756300d7fe0f0b17e6febecda47629789b971
