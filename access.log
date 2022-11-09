@@ -22,3 +22,5 @@
 ::1 - - [01/Nov/2022:17:25:29 +0000] "GET /api/v1/products HTTP/1.1" 200 71619 "-" "PostmanRuntime/7.29.2"
 ::1 - - [01/Nov/2022:17:27:27 +0000] "DELETE /api/v1/products/6361535eae7e313b6f953917 HTTP/1.1" 403 769 "-" "PostmanRuntime/7.29.2"
 ::1 - - [01/Nov/2022:17:35:44 +0000] "DELETE /api/v1/products/6361535eae7e313b6f953917 HTTP/1.1" 403 769 "-" "PostmanRuntime/7.29.2"
+::1 - - [09/Nov/2022:14:57:45 +0000] "POST /api/v1/users/signin HTTP/1.1" 200 364 "-" "PostmanRuntime/7.29.2"
+::1 - - [09/Nov/2022:14:57:55 +0000] "POST /api/v1/users/signin HTTP/1.1" 401 267 "-" "PostmanRuntime/7.29.2"

@@ -11,6 +11,7 @@ const userRouter = require("./routes/user-routes");
 const cartRouter = require("./routes/cart-routes");
 const orderRoutes = require("./routes/order-routes");
 const shopRoutes = require("./routes/shop-routes");
+const ErrorHandler = require("./controllers/error-controllers");
 
 app.use(express.json());
 app.use(cors());
@@ -33,6 +34,6 @@ app.all("*", (req, res, next) => {
   next(err);
 });
 
-app.use(ErrorObject);
+app.use(ErrorHandler);
 
 module.exports = app;
