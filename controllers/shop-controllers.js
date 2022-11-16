@@ -114,23 +114,26 @@ const editShop = CatchAsync(async (req, res, next) => {
   }
 });
 
-const getShopByName = CatchAsync(async (req, res, next) => {
+const getShopByName = async (req, res) => {
   // everybody can get the store
-  const { name } = req.query;
-  const shop = await Shop.find({ name });
-  if (shop) {
-    return res.status(200).json({
-      error: false,
-      message: "shop found",
-      data: {
-        shop,
-      },
-    });
-  } else {
-    return res.status(404).json({ error: true, message: "shop not found" });
+  try {
+    const { name } = req.query;
+    const shop = await Shop.find({ name });
+    if (shop) {
+      return res.status(200).json({
+        error: false,
+        message: "shop found",
+        data: {
+          shop,
+        },
+      });
+    } else {
+      return res.status(404).json({ error: true, message: "shop not found" });
+    }
+  } catch (error) {
+    console.log(error.message);
   }
-});
-
+};
 const getAllShops = CatchAsync(async (req, res, next) => {
   // everybody can get the store
   const shops = await Shop.find();

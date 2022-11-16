@@ -18,8 +18,7 @@ const reviewSchema = new mongoose.Schema({
   user: {
     type: mongoose.Types.ObjectId,
     ref: "User",
-    unique:true
-    // autopopulate: true
+    autopopulate: true
   },
 });
 reviewSchema.plugin(require("mongoose-autopopulate"));

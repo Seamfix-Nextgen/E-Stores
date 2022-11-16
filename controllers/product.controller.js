@@ -68,7 +68,7 @@ const createAProduct = async (req, res) => {
 const productByID = async (req, res) => {
   try {
     const { productID } = req.params;
-    const product = await Product.findById(productID);
+    const product = await Product.findById(productID).select("-reviews");
     if (!product)
       return res
         .status(404)
@@ -120,7 +120,7 @@ const updateProduct = async (req, res) => {
 const listproductByShop = async (req, res) => {
   try {
     const { shopID } = req.params;
-    const products = Product.find({ "shop._id": shopID });
+    const products = Product.find({ "shop": shopID });
     if (!products)
       return res
         .status(404)
@@ -191,7 +191,7 @@ const listByCategories = async (req, res) => {
 };
 const listAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({});
+    const products = await Product.find({}).select('-reviews');
     if (!products)
       return res
         .status(404)

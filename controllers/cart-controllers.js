@@ -11,9 +11,10 @@ exports.createCart = catchAsync(async (req, res, next) => {
   const userId = req.user.id;
 
   const prod = await Product.findById(productId);
-  unitPrice = prod.amount;
 
-  if (!prod.available) {
+  unitPrice = prod.price;
+
+  if (!prod) {
     return next(
       new ErrorObject(`The product ${prod.name} is not available`, 400)
     );
@@ -151,14 +152,15 @@ exports.updateCart = catchAsync(async (req, res, next) => {
 
 //Delete an Cart
 exports.deleteCart = catchAsync(async (req, res, next) => {
-  const cart = await Cart.findById(req.params.id);
+  const cart = await Cart.findByIdAndDelete(req.params.id);
   if (!cart) {
     return next(
       new ErrorObject(`There is no cart with Id ${req.params.id}`, 400)
     );
   }
-
   const myOrder = await Order.findOne({ userId: req.user.id });
+console.log(myOrder);
+
   let totalAmount = myOrder.totalAmount - cart.amount;
   const cart_id = myOrder.cartId.filter(
     (id) => id.toString() !== cart._id.toString()
