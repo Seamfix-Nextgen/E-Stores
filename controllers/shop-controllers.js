@@ -4,8 +4,11 @@ const Product = require("../models/product.model");
 const multer = require("multer");
 const sharp = require("sharp");
 const CatchAsync = require("../utils/catch-async");
+const QueryMethod = require("../utils/query.js");
+const ErrorObject = require("../utils/error");
+const cloudinary = require("cloudinary");
 
-const multerStorage = multer.memoryStorage();
+const multerStorage = multer.diskStorage({});
 
 const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image")) {
@@ -22,32 +25,66 @@ const uploadImage = multer({
 
 const uploadShopImage = uploadImage.single("image");
 
+cloudinary.config({
+  cloud_name: process.env.cloud_name,
+  api_key: process.env.api_key,
+  api_secret: process.env.api_secret,
+});
 const resizeImage = CatchAsync(async (req, res, next) => {
   if (req.file) {
-    let timeStamp = Date.now();
+    // let user_id = req.user._id;
     let id = req.params.id;
-    let storeName;
     if (id) {
-      const store = await Shop.findById(id);
-      if (!store) {
+      const shop = await Shop.findById(id);
+      if (!shop) {
         return next(
-          new ErrorObject(`There is no store with the is ${req.params.id}`, 400)
+          new ErrorObject(`There is no shop with the is ${req.params.id}`, 400)
         );
       }
-      storeName = `${store.name}-${timeStamp}.jpeg`;
+      shopName = `${shop.name}`;
     }
-    storeName = `${req.body.name}-${timeStamp}.jpeg`;
-    req.body.image = storeName;
+    shopName = `${req.body.name}`;
 
-    await sharp(req.file.buffer)
-      .resize(320, 240)
-      .toFormat("jpeg")
-      .jpeg({ quality: 80 })
-      .toFile(`public/storeImage/${storeName}`);
+    const result = await cloudinary.v2.uploader.upload(
+      req.file.path,
+      { public_id: `${shopName}` },
+      function (error, result) {
+        // console.log(result);
+      }
+    );
+    ShopName = result.url;
+    req.body.image = ShopName;
   }
 
   next();
 });
+
+// const resizeImage = CatchAsync(async (req, res, next) => {
+//   if (req.file) {
+//     let timeStamp = Date.now();
+//     let id = req.params.id;
+//     let storeName;
+//     if (id) {
+//       const shop = await Shop.findById(id);
+//       if (!store) {
+//         return next(
+//           new ErrorObject(`There is no store with the is ${req.params.id}`, 400)
+//         );
+//       }
+//       storeName = `${store.name}-${timeStamp}.jpeg`;
+//     }
+//     storeName = `${req.body.name}-${timeStamp}.jpeg`;
+//     req.body.image = storeName;
+
+//     await sharp(req.file.buffer)
+//       .resize(320, 240)
+//       .toFormat("jpeg")
+//       .jpeg({ quality: 80 })
+//       .toFile(`public/storeImage/${storeName}`);
+//   }
+
+//   next();
+// });
 
 const createShop = CatchAsync(async (req, res, next) => {
   const { name, description, image } = req.body;
