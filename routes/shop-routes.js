@@ -14,13 +14,15 @@ const router = express.Router();
 router
   .route("/:shopID")
   .patch(
-    protect,
-    restrictTo("admin", "shopOwner"),
-    uploadShopImage,
-    resizeImage,
+    // protect,
+    // restrictTo("admin", "shopOwner"),
+    // uploadShopImage,
+    // resizeImage,
     editShop
   )
-  .delete(protect, restrictTo("admin", "shopOwner"), deleteShop);
+  .delete(protect,
+    //  restrictTo("admin", "shopOwner"),
+      deleteShop);
 router
   .route("/")
   .post(
@@ -31,6 +33,6 @@ router
     createShop
   )
   .get(getAllShops);
-router.route("/: name").get(getShopByName);
+router.route("/shop").get(getShopByName);
 
 module.exports = router;

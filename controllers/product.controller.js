@@ -2,26 +2,26 @@ const User = require("../models/User-model");
 const Shop = require("../models/shop.model");
 const Product = require("../models/product.model");
 
-
 const createManyProducts = async (req, res) => {
   try {
     let products = Product.insertMany(req.body)
-      .then(() => {
-        return res
-          .status(200)
-          .json({ error: false, message: "product quantity updated",data: products });
+      .then((products) => {
+        return res.status(200).json({
+          error: false,
+          message: "product quantity updated",
+          data: products,
+        });
       })
       .catch(() => {
-        return res
-          .status(400)
-          .json({ error: true, message: "bad request" });
+        return res.status(400).json({ error: true, message: "bad request" });
       });
   } catch (error) {}
 };
 
 const createAProduct = async (req, res) => {
   try {
-    const { name, images, description, category, quantity, price } = req.body;
+    const { name, images, description, category, quantity, price, shop } =
+      req.body;
     // const shopOwner = await User.findById(userID);
     // const shop = await Shop.findOne({ "owner.fullName": shopOwner.fullName });
     const productExists = await Product.findOne({ name });
@@ -50,7 +50,9 @@ const createAProduct = async (req, res) => {
         category,
         quantity,
         price,
+        shop,
       });
+
       // newProduct = await newProduct.populate("shop").execPopulate();
 
       if (newProduct) {
@@ -68,7 +70,7 @@ const createAProduct = async (req, res) => {
 const productByID = async (req, res) => {
   try {
     const { productID } = req.params;
-    const product = await Product.findById(productID);
+    const product = await Product.findById(productID).select("-reviews");
     if (!product)
       return res
         .status(404)
@@ -120,7 +122,10 @@ const updateProduct = async (req, res) => {
 const listproductByShop = async (req, res) => {
   try {
     const { shopID } = req.params;
-    const products = Product.find({ "shop._id": shopID });
+    const products = await Product.find({ shop: shopID })
+      .populate("shop", "name")
+      .select("-reviews");
+    console.log(products, shopID);
     if (!products)
       return res
         .status(404)
@@ -169,7 +174,7 @@ const deleteProduct = async (req, res) => {
 const listByCategories = async (req, res) => {
   try {
     const { category } = req.params;
-    
+
     const products = await Product.find({ category: category });
     if (!products) {
       return res
@@ -191,7 +196,7 @@ const listByCategories = async (req, res) => {
 };
 const listAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({});
+    const products = await Product.find({}).select("-reviews");
     if (!products)
       return res
         .status(404)
@@ -229,6 +234,7 @@ const listbyLatest = async (req, res) => {
     });
   }
 };
+
 
 module.exports = {
   createAProduct,

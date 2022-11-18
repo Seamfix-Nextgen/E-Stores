@@ -27,9 +27,26 @@ const ProductSchema = new mongoose.Schema(
       type: Number,
       required: "Price is required",
     },
+    averageReview: {
+      type: Number,
+      default: 0,
+    },
 
-    shop: { type: mongoose.Schema.ObjectId, ref: "Shop", autopopulate: true },
+    shop: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Shop",
+      required: "shopID is required"
+      // autopopulate: true,
+    },
+    reviews: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Review",
+        select: false 
+      },
+    ],
   },
+
   { timestamps: true }
 );
 
