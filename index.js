@@ -32,8 +32,8 @@ app.use("/api/v1/carts", cartRouter);
 app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/stores", shopRoutes);
 app.use("/api/v1/reviews", reviewRoutes);
-app.use("/api/v1/savestore", savedStore);
-app.use("/api/v1/savedproduct", savedProduct);
+app.use("/api/v1/savedstores", savedStore);
+app.use("/api/v1/savedproducts", savedProduct);
 
 app.all("*", (req, res, next) => {
   const err = new ErrorObject(`http:localhost:6000${req.url} not found`, 404);
