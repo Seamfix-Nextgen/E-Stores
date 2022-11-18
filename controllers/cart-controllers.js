@@ -12,7 +12,7 @@ exports.createCart = catchAsync(async (req, res, next) => {
 
   const prod = await Product.findById(productId);
 
-  unitPrice = prod.price;
+  let unitPrice = prod.price;
 
   if (!prod) {
     return next(
@@ -29,7 +29,7 @@ exports.createCart = catchAsync(async (req, res, next) => {
     );
   }
 
-  amount = quantity * unitPrice;
+  amount = quantity *  unitPrice;
 
   const cart = await Cart.create({
     userId,

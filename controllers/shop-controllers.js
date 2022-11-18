@@ -73,7 +73,7 @@ const createShop = CatchAsync(async (req, res, next) => {
     return res.status(200).json({
       error: false,
       message: "Your shop has been created successfully",
-      data: { newStore },
+      data: newStore ,
     });
   } else {
     return res.status(400).json({
@@ -118,7 +118,7 @@ const getShopByName = async (req, res) => {
   // everybody can get the store
   try {
     const { name } = req.query;
-    const shop = await Shop.find({ name });
+    const shop = await Shop.findOne({ name })
     if (shop) {
       return res.status(200).json({
         error: false,

@@ -35,13 +35,13 @@ const ProductSchema = new mongoose.Schema(
     shop: {
       type: mongoose.Schema.ObjectId,
       ref: "Shop",
-      autopopulate: true,
+      required: "shopID is required"
+      // autopopulate: true,
     },
     reviews: [
       {
         type: mongoose.Schema.ObjectId,
         ref: "Review",
-        autopopulate: true,
         select: false 
       },
     ],
@@ -50,16 +50,6 @@ const ProductSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
-// ProductSchema.pre("findOneAndUpdate", async function (next) {
-//  console.log(this.reviews)
-//  this.averageReview = (this.reviews.reduce((total, currentValue) => {
-//           if(typeof currentValue.rate === "number"){
-//           return total + parseInt(currentValue.rate)}
-// },0)/this.reviews.length)
-
-// next()
-// })
 ProductSchema.plugin(require("mongoose-autopopulate"));
 const Product = mongoose.model("Product", ProductSchema);
 

@@ -25,6 +25,7 @@ router
   .route("/many")
   .post(protect, restrictTo(  "shopOwner"), createManyProducts);
 
+router.route("/shop/:shopID/").get(listproductByShop);
 router
   .route("/:productID")
   .delete(protect, restrictTo("admin"), deleteProduct)
@@ -32,6 +33,5 @@ router
   .get(productByID);
 
 router.route("/categories/:category").get(listByCategories);
-router.route("/:shop").get(listproductByShop);
 
 module.exports = router;

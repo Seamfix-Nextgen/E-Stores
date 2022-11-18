@@ -20,7 +20,9 @@ router
     // resizeImage,
     editShop
   )
-  .delete(protect, restrictTo("admin", "shopOwner"), deleteShop);
+  .delete(protect,
+    //  restrictTo("admin", "shopOwner"),
+      deleteShop);
 router
   .route("/")
   .post(
