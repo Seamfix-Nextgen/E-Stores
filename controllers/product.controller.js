@@ -65,7 +65,7 @@ const resizeImage = CatchAsync(async (req, res, next) => {
 
 const createManyProducts = async (req, res) => {
   try {
-    let products = Product.insertMany(req.body)
+    let products =  Product.insertMany(req.body)
       .then((products) => {
         return res.status(200).json({
           error: false,

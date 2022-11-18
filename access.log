@@ -3396,3 +3396,6 @@
 ::1 - - [18/Nov/2022:20:30:10 +0000] "GET /api/v1/products?amount[gte]=20 HTTP/1.1" 200 135230 "-" "PostmanRuntime/7.29.2"
 ::1 - - [18/Nov/2022:20:30:30 +0000] "GET /api/v1/products HTTP/1.1" 200 135230 "-" "PostmanRuntime/7.29.2"
 ::1 - - [18/Nov/2022:20:32:29 +0000] "POST /api/v1/carts HTTP/1.1" 200 242 "-" "PostmanRuntime/7.29.2"
+::1 - - [18/Nov/2022:21:40:21 +0000] "GET /api/v1/users HTTP/1.1" 200 1275 "-" "PostmanRuntime/7.29.2"
+::1 - - [18/Nov/2022:21:40:33 +0000] "GET /api/v1/users/63691dfa21b6ea289e19c749 HTTP/1.1" 400 401 "-" "PostmanRuntime/7.29.2"
+::1 - - [18/Nov/2022:21:51:06 +0000] "POST /api/v1/stores HTTP/1.1" 500 1403 "-" "PostmanRuntime/7.29.2"

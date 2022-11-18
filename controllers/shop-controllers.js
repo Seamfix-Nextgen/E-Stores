@@ -59,7 +59,7 @@ const resizeImage = CatchAsync(async (req, res, next) => {
 });
 
 const createShop = CatchAsync(async (req, res, next) => {
-  const { name, description, image } = req.body;
+  const { name, description, image, phoneNumber, address } = req.body;
   // const { userID } = req.params;
   // const shopOwner = await User.findById(userID);
   const shopExists = await Shop.findOne({ name: name });
@@ -77,6 +77,8 @@ const createShop = CatchAsync(async (req, res, next) => {
     description,
     owner: id,
     image,
+    phoneNumber,
+    address,
   });
   if (newStore) {
     return res.status(200).json({
