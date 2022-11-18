@@ -4,15 +4,15 @@ const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
 const morgan = require("morgan");
-const { model } = require("mongoose");
 const ErrorObject = require("./utils/error");
+
 const productRouter = require("./routes/product-routes");
 const userRouter = require("./routes/user-routes");
 const cartRouter = require("./routes/cart-routes");
 const orderRoutes = require("./routes/order-routes");
 const shopRoutes = require("./routes/shop-routes");
 const reviewRoutes = require("./routes/review.routes");
-const savedStore = require("./routes/savedStore")
+const savedStore = require("./routes/savedStore");
 const savedProduct = require("./routes/savedProduct");
 const ErrorHandler = require("./controllers/error-controllers");
 

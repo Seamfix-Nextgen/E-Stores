@@ -2,7 +2,6 @@ const User = require("../models/User-model");
 const Shop = require("../models/shop.model");
 const Product = require("../models/product.model");
 const multer = require("multer");
-const sharp = require("sharp");
 const CatchAsync = require("../utils/catch-async");
 const QueryMethod = require("../utils/query.js");
 const ErrorObject = require("../utils/error");
@@ -59,33 +58,6 @@ const resizeImage = CatchAsync(async (req, res, next) => {
   next();
 });
 
-// const resizeImage = CatchAsync(async (req, res, next) => {
-//   if (req.file) {
-//     let timeStamp = Date.now();
-//     let id = req.params.id;
-//     let storeName;
-//     if (id) {
-//       const shop = await Shop.findById(id);
-//       if (!store) {
-//         return next(
-//           new ErrorObject(`There is no store with the is ${req.params.id}`, 400)
-//         );
-//       }
-//       storeName = `${store.name}-${timeStamp}.jpeg`;
-//     }
-//     storeName = `${req.body.name}-${timeStamp}.jpeg`;
-//     req.body.image = storeName;
-
-//     await sharp(req.file.buffer)
-//       .resize(320, 240)
-//       .toFormat("jpeg")
-//       .jpeg({ quality: 80 })
-//       .toFile(`public/storeImage/${storeName}`);
-//   }
-
-//   next();
-// });
-
 const createShop = CatchAsync(async (req, res, next) => {
   const { name, description, image } = req.body;
   // const { userID } = req.params;
@@ -110,7 +82,7 @@ const createShop = CatchAsync(async (req, res, next) => {
     return res.status(200).json({
       error: false,
       message: "Your shop has been created successfully",
-      data: newStore ,
+      data: newStore,
     });
   } else {
     return res.status(400).json({
@@ -121,24 +93,35 @@ const createShop = CatchAsync(async (req, res, next) => {
 });
 
 const editShop = CatchAsync(async (req, res, next) => {
-  // only shop owners can edit the store
-  const { name, description, image } = req.body;
   const { shopID } = req.params;
   const userID = req.user._id;
-  const storeToBeUpdated = await Shop.findById(shopID);
-  // validate the owner of the store (only store owners can delete store)
+  const shop = await Shop.findById(shopID);
+  // validate the owner of the store
   const validStoreOwner = await User.findById(userID);
   // !validStoreOwner ||
-  if (validStoreOwner._id !== storeToBeUpdated.owner) {
-    return res
-      .status(401)
-      .json({ error: true, message: "unauthorized access" });
+  if (req.user.role !== "admin") {
+    if (validStoreOwner._id.toString() !== shop.owner.toString()) {
+      return res
+        .status(401)
+        .json({ error: true, message: "unauthorized access" });
+    }
   }
-  const updatedShop = await Shop.findByIdAndUpdate(
-    shopID,
-    { name, description, image },
-    { new: true }
-  );
+  const name = req.body.name === undefined ? shop.name : req.body.name;
+  const description =
+    req.body.description === undefined
+      ? shop.description
+      : req.body.description;
+  const image = req.body.image === undefined ? shop.image : req.body.image;
+  const address =
+    req.body.address === undefined ? shop.address : req.body.address;
+  const phoneNumber =
+    req.body.phoneNumber === undefined
+      ? shop.phoneNumber
+      : req.body.phoneNumber;
+  const updateShop = { name, description, phoneNumber, image, address };
+  const updatedShop = await Shop.findByIdAndUpdate(shopID, updateShop, {
+    new: true,
+  });
 
   if (updatedShop) {
     return res.status(200).json({
@@ -147,15 +130,30 @@ const editShop = CatchAsync(async (req, res, next) => {
       data: updatedShop,
     });
   } else {
-    return res.status(404).json({ error: true, message: "shop not found" });
+    return res.status(404).json({ error: true, message: "Shop not found" });
   }
+});
+
+// get one shop
+const getOneShop = CatchAsync(async (req, res, next) => {
+  const { shopID } = req.params;
+  const shop = await Shop.findById(shopID);
+  if (!shop) {
+    return next(new ErrorObject(`There is no shop with the id ${shopID}`, 400));
+  }
+  res.status(200).json({
+    status: "success",
+    data: {
+      shop,
+    },
+  });
 });
 
 const getShopByName = async (req, res) => {
   // everybody can get the store
   try {
     const { name } = req.query;
-    const shop = await Shop.findOne({ name })
+    const shop = await Shop.findOne({ name });
     if (shop) {
       return res.status(200).json({
         error: false,
@@ -172,12 +170,16 @@ const getShopByName = async (req, res) => {
   }
 };
 const getAllShops = CatchAsync(async (req, res, next) => {
-  // everybody can get the store
-  const shops = await Shop.find();
+  let queriedShops = new QueryMethod(Shop.find(), req.query)
+    .sort()
+    .filter()
+    .limit()
+    .paginate();
+  let shops = await queriedShops.query;
   if (shops) {
     return res.status(200).json({
       error: false,
-      message: "Stores Availble",
+      message: "Shops Availble",
       data: {
         shops,
       },
@@ -185,7 +187,7 @@ const getAllShops = CatchAsync(async (req, res, next) => {
   } else {
     return res
       .status(404)
-      .json({ error: true, message: "No stores availiable" });
+      .json({ error: true, message: "No shops availiable" });
   }
 });
 
@@ -197,10 +199,13 @@ const deleteShop = async (req, res) => {
   if (!storeToBeDeleted) {
     return res.status(404).json({ error: true, message: "shop not found" });
   }
-  // validate the owner of the store (only store owners can delete store)
+  // validate the owner of the store
   const validStoreOwner = await User.findById(userID);
   if (req.user.role !== "admin") {
-    if (!validStoreOwner || validStoreOwner._id !== storeToBeDeleted.owner) {
+    if (
+      !validStoreOwner ||
+      validStoreOwner._id.toString() !== storeToBeDeleted.owner.toString()
+    ) {
       return res
         .status(401)
         .json({ error: true, message: "unauthorized access" });
@@ -220,4 +225,5 @@ module.exports = {
   uploadShopImage,
   resizeImage,
   deleteShop,
+  getOneShop,
 };
