@@ -38,6 +38,20 @@ const shopSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// // Geocode & create location
+// storeSchema.pre("save", async function (next) {
+//   const loc = await geocoder.geocode(this.address);
+//   this.location = {
+//     type: "Point",
+//     coordinates: [loc[0].longitude, loc[0].latitude],
+//     formattedAddress: loc[0].formattedAddress,
+//   };
+//   // Do not save address
+//   // this.address = undefined;
+//   next();
+// });
+
 shopSchema.plugin(require("mongoose-autopopulate"));
 const Shop = mongoose.model("Shop", shopSchema);
 module.exports = Shop;
