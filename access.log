@@ -3388,3 +3388,11 @@
 ::1 - - [18/Nov/2022:01:49:58 +0000] "GET /api/v1/savedproduct/ HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
 ::1 - - [18/Nov/2022:01:50:05 +0000] "GET /api/v1/savedproduct/ HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
 >>>>>>> 9c7c26cbb21f8c78185cdae13b35c0378d5e873d
+::1 - - [18/Nov/2022:20:12:38 +0000] "POST /api/v1/carts HTTP/1.1" 500 1464 "-" "PostmanRuntime/7.29.2"
+::1 - - [18/Nov/2022:20:25:27 +0000] "POST /api/v1/users/signIn HTTP/1.1" 200 373 "-" "PostmanRuntime/7.29.2"
+::1 - - [18/Nov/2022:20:25:47 +0000] "POST /api/v1/carts HTTP/1.1" 500 379 "-" "PostmanRuntime/7.29.2"
+::1 - - [18/Nov/2022:20:29:48 +0000] "GET /api/v1/products/%2263384b4581a33e647a2939cc HTTP/1.1" 500 47 "-" "PostmanRuntime/7.29.2"
+::1 - - [18/Nov/2022:20:29:58 +0000] "GET /api/v1/products/63384b4581a33e647a2939cc HTTP/1.1" 404 44 "-" "PostmanRuntime/7.29.2"
+::1 - - [18/Nov/2022:20:30:10 +0000] "GET /api/v1/products?amount[gte]=20 HTTP/1.1" 200 135230 "-" "PostmanRuntime/7.29.2"
+::1 - - [18/Nov/2022:20:30:30 +0000] "GET /api/v1/products HTTP/1.1" 200 135230 "-" "PostmanRuntime/7.29.2"
+::1 - - [18/Nov/2022:20:32:29 +0000] "POST /api/v1/carts HTTP/1.1" 200 242 "-" "PostmanRuntime/7.29.2"

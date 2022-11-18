@@ -1,6 +1,67 @@
 const User = require("../models/User-model");
 const Shop = require("../models/shop.model");
 const Product = require("../models/product.model");
+const CatchAsync = require("../utils/catch-async");
+const multer = require("multer");
+const cloudinary = require("cloudinary");
+const QueryMethod = require("../utils/query");
+const ErrorObject = require("../utils/error");
+
+const multerStorage = multer.diskStorage({});
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb(new ErrorObject("Please upload only an image file", 400), false);
+  }
+};
+
+const uploadImage = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+const uploadProductImage = uploadImage.single("image");
+
+cloudinary.config({
+  cloud_name: process.env.cloud_name,
+  api_key: process.env.api_key,
+  api_secret: process.env.api_secret,
+});
+
+const resizeImage = CatchAsync(async (req, res, next) => {
+  if (req.file) {
+    // let user_id = req.user._id;
+    let timeStamp = Date.now();
+    let productId = req.params.id;
+    if (productId) {
+      const product = await Product.findById(productId);
+      if (!product) {
+        return next(
+          new ErrorObject(
+            `There is no product with the is ${req.params.id}`,
+            400
+          )
+        );
+      }
+      productName = `${product.name}-${timeStamp}`;
+    }
+    productName = `${req.body.name}-${timeStamp}`;
+
+    const result = await cloudinary.v2.uploader.upload(
+      req.file.path,
+      { public_id: `${productName}` },
+      function (error, result) {
+        console.log(result);
+      }
+    );
+    ProductName = result.url;
+    req.body.image = ProductName;
+  }
+
+  next();
+});
 
 const createManyProducts = async (req, res) => {
   try {
@@ -235,8 +296,9 @@ const listbyLatest = async (req, res) => {
   }
 };
 
-
 module.exports = {
+  uploadProductImage,
+  resizeImage,
   createAProduct,
   createManyProducts,
   productByID,
