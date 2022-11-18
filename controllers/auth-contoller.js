@@ -4,6 +4,7 @@ const crypto = require("crypto");
 const CatchAsync = require("../utils/catch-async");
 const User = require("../models/User-model");
 const ErrorObject = require("../utils/error");
+const sendEmail = require("../utils/email");
 
 const { JWT_EXPIRES_IN, JWT_SECRET, JWT_COOKIE_EXPIRES_IN, NODE_ENV } =
   process.env;
@@ -38,7 +39,15 @@ const createAndSendToken = CatchAsync(async (user, statusCode, res) => {
 
 // sign up user
 exports.signUp = CatchAsync(async (req, res, next) => {
-  const { email, fullName, phoneNumber, password, passwordConfirm, role } = req.body;
+  const { email, fullName, phoneNumber, password, passwordConfirm, role } =
+    req.body;
+  const emailExists = await User.findOne({ email: email });
+  if (emailExists) {
+    return next(new ErrorObject("Email already exist", 409));
+  }
+  if (password !== confirmPassword) {
+    return next(new ErrorObject("Wrong Password Confirmation input", 400));
+  }
   const user = await User.create({
     email,
     fullName,
@@ -52,11 +61,16 @@ exports.signUp = CatchAsync(async (req, res, next) => {
 
 // Sign In User
 exports.signIn = CatchAsync(async (req, res, next) => {
-  const { email, password } = req.body; 
+  const { email, password } = req.body;
   if (!email || !password) {
     return next(new ErrorObject("Please enter your email and password", 400));
   }
   const user = await User.findOne({ email }).select("+password");
+  if (!user) {
+    return next(
+      new ErrorObject("There is no user with the provided email address", 404)
+    );
+  }
   const newPasswordConfirm = await bcrypt.compare(password, user.password);
   if (!newPasswordConfirm || !user) {
     return next(new ErrorObject("Invalid email or password", 401));

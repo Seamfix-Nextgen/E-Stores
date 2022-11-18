@@ -9,12 +9,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "A user must have a name"],
     },
-
-   phoneNumber:{
+    phoneNumber: {
       type: String,
-      match: [/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/, 'Enter a valid phone number']
-      
-  },
+      match: [
+        /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/,
+        "Enter a valid phone number",
+      ],
+    },
     email: {
       type: String,
       required: [true, "A user must have an email"],
@@ -48,7 +49,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: "user",
-      enum: ["user", "admin","shopOwner"],
+      enum: ["user", "admin", "shopOwner"],
     },
     passwordResetToken: String,
     passwordChangedAt: Date,
