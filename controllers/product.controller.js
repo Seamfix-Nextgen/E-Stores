@@ -99,7 +99,7 @@ const createAProduct = async (req, res) => {
     if (productExists) {
       productExists.quantity += parseInt(quantity);
       await productExists.save();
-      console.log(productExists);
+      
       return res
         .status(200)
         .json({ error: false, message: "product quantity updated" });
@@ -186,7 +186,7 @@ const listproductByShop = async (req, res) => {
     const products = await Product.find({ shop: shopID })
       .populate("shop", "name")
       .select("-reviews");
-    console.log(products, shopID);
+    
     if (!products)
       return res
         .status(404)
@@ -296,6 +296,17 @@ const listbyLatest = async (req, res) => {
   }
 };
 
+const sortPrices = CatchAsync(async (req, res) => {
+  const products = await Product.find({}).sort({ price: 1 });
+  if (!products)
+    return res.status(404).json({ error: true, message: "product not found" });
+  return res.status(200).json({
+    error: false,
+    message: "products found",
+    data: products,
+  });
+});
+
 module.exports = {
   uploadProductImage,
   resizeImage,
@@ -308,4 +319,5 @@ module.exports = {
   listByCategories,
   listAllProducts,
   listbyLatest,
+  sortPrices,
 };

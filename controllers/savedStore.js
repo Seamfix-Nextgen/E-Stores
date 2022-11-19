@@ -4,18 +4,18 @@ const CatchAsync = require("../utils/catch-async");
 const saveAStore = CatchAsync(async (req, res) => {
   const { storeID } = req.params;
   const userID = req.user._id;
-  const storedAlready =await  SavedStore.findOne({ shop: storeID, user: userID });
+  const storedAlready = await SavedStore.findOne({
+    shop: storeID,
+    user: userID,
+  });
   if (storedAlready) {
-    return res
-      .status(409)
-      .json({
-        error: true,
-        message: "already saved this store",
-        
-      });
+    return res.status(409).json({
+      error: true,
+      message: "already saved this store",
+    });
   }
   let newSavedStore = new SavedStore({ shop: storeID, user: userID });
-  await newSavedStore.save()
+  await newSavedStore.save();
   if (newSavedStore) {
     return res.status(200).json({
       error: false,
@@ -30,19 +30,36 @@ const saveAStore = CatchAsync(async (req, res) => {
   }
 });
 
+const getSavedStores = CatchAsync(async (req, res) => {
+  const userID = req.user._id;
+  const savedStores = await SavedStore.find({
+    user: userID,
+  });
+  if (savedStores) {
+    return res.status(200).json({
+      error: true,
+      message: "already saved this store",
+      savedStores,
+    });
+  }
+});
+const deleteAsavedStore = CatchAsync(async (req, res) => {
+  const { storeID } = req.params;
+  const userID = req.user._id;
+  const deletedSavedStore = await SavedStore.findOneAndDelete({
+    shop: storeID,
+    user: userID,
+  });
+  if (!deletedSavedStore)
+    return res.status(404).json({
+      error: true,
+      message: "you cannot delete shop you've not saved",
+    });
+  return res.status(204).json({
+    error: false,
+    message: "saved shop deleted",
+    deletedSavedStore,
+  });
+});
 
-const getSavedStores = CatchAsync (async (req,res)=>{
-     const userID = req.user._id;
-     const savedStores = await SavedStore.find({
-       user: userID,
-     });
-     if (savedStores) {
-       return res.status(200).json({
-         error: true,
-         message: "already saved this store",
-         savedStores
-       });
-     }
-})
-
-module.exports = { saveAStore, getSavedStores };
+module.exports = { saveAStore, getSavedStores, deleteAsavedStore };

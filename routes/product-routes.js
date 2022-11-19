@@ -10,12 +10,15 @@ const {
   listproductByShop,
   listbyLatest,
   createManyProducts,
+  sortPrices,
 } = require("../controllers/product.controller");
 const router = express.Router();
 
 
 
 router.route("/latest").get(listbyLatest);
+
+router.route("/cheapest").get(sortPrices);
 
 router
   .route("/")
