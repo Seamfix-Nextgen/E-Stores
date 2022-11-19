@@ -45,7 +45,7 @@ exports.signUp = CatchAsync(async (req, res, next) => {
   if (emailExists) {
     return next(new ErrorObject("Email already exist", 409));
   }
-  if (password !== confirmPassword) {
+  if (password !== passwordConfirm) {
     return next(new ErrorObject("Wrong Password Confirmation input", 400));
   }
   const user = await User.create({

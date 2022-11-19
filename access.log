@@ -3622,3 +3622,10 @@
 ::1 - - [18/Nov/2022:21:55:18 +0000] "POST /api/v1/stores HTTP/1.1" 200 415 "-" "PostmanRuntime/7.29.2"
 ::1 - - [18/Nov/2022:22:03:18 +0000] "GET /api/v1/products/6374d4c241fc663daf0a4e72 HTTP/1.1" 404 44 "-" "PostmanRuntime/7.29.2"
 >>>>>>> 9c95e4ef91529058558b7648cd77c0b8d70c2c1d
+::1 - - [18/Nov/2022:22:56:08 +0000] "GET /api/v1/products/63757247f240a949e9214047 HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+::1 - - [18/Nov/2022:22:56:22 +0000] "GET /api/v1/savedproducts/ HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+::1 - - [19/Nov/2022:19:17:13 +0000] "GET /api/v1/shops/ HTTP/1.1" 200 13664 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+::1 - - [19/Nov/2022:19:21:25 +0000] "GET /api/v1/shops/ HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+::1 - - [19/Nov/2022:19:27:14 +0000] "POST /api/v1/users/signUp HTTP/1.1" 500 317 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+::1 - - [19/Nov/2022:19:27:18 +0000] "POST /api/v1/users/signUp HTTP/1.1" 500 317 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+::1 - - [19/Nov/2022:19:29:52 +0000] "POST /api/v1/users/signUp HTTP/1.1" 500 317 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
