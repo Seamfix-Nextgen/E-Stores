@@ -34,7 +34,7 @@ router.route("/shop/:shopID/").get(listproductByShop);
 router
   .route("/:productID")
   .delete(protect, restrictTo("admin"), deleteProduct)
-  .put(protect, restrictTo("shopOwner"), updateProduct)
+  .patch(protect, restrictTo("shopOwner"),uploadProductImage,resizeImage, updateProduct)
   .get(productByID);
 
 router.route("/categories/:category").get(listByCategories);
