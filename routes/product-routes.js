@@ -11,6 +11,8 @@ const {
   listbyLatest,
   createManyProducts,
   sortPrices,
+  uploadProductImage,
+  resizeImage,
 } = require("../controllers/product.controller");
 const router = express.Router();
 
@@ -22,7 +24,7 @@ router.route("/cheapest").get(sortPrices);
 
 router
   .route("/")
-  .post(protect, restrictTo("shopOwner"), createAProduct)
+  .post(protect, restrictTo("shopOwner"),uploadProductImage,resizeImage, createAProduct)
   .get(listAllProducts);
 router
   .route("/many")
