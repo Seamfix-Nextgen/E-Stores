@@ -3666,3 +3666,5 @@
 ::1 - - [20/Nov/2022:21:19:19 +0000] "GET /api/v1/orders/635a99274cba9a3b7dae4973 HTTP/1.1" 500 382 "-" "PostmanRuntime/7.29.2"
 ::1 - - [20/Nov/2022:21:20:39 +0000] "GET /api/v1/orders HTTP/1.1" 200 186 "-" "PostmanRuntime/7.29.2"
 ::1 - - [20/Nov/2022:21:20:52 +0000] "GET /api/v1/orders/ HTTP/1.1" 200 186 "-" "PostmanRuntime/7.29.2"
+::1 - - [21/Nov/2022:18:47:56 +0000] "GET /api/v1/carts HTTP/1.1" 200 1961 "-" "PostmanRuntime/7.29.2"
+::1 - - [21/Nov/2022:21:31:23 +0000] "POST /api/v1/orders/checkout HTTP/1.1" 200 213 "-" "PostmanRuntime/7.29.2"
