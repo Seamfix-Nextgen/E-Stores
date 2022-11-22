@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema(
     },
     phoneNumber: {
       type: String,
+      required: true,
       match: [
         /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/,
         "Enter a valid phone number",

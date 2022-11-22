@@ -3680,3 +3680,7 @@
 ::1 - - [22/Nov/2022:14:01:27 +0000] "POST /api/v1/orders/checkout HTTP/1.1" 200 236 "-" "PostmanRuntime/7.29.2"
 ::1 - - [22/Nov/2022:14:07:20 +0000] "POST /api/v1/orders/checkout HTTP/1.1" 200 239 "-" "PostmanRuntime/7.29.2"
 ::1 - - [22/Nov/2022:14:07:30 +0000] "POST /api/v1/orders/checkout HTTP/1.1" 200 213 "-" "PostmanRuntime/7.29.2"
+::1 - - [22/Nov/2022:14:27:54 +0000] "PATCH /api/v1/users/63691dfa21b6ea289e19c749 HTTP/1.1" 400 401 "-" "PostmanRuntime/7.29.2"
+::1 - - [22/Nov/2022:14:28:28 +0000] "PATCH /api/v1/users/635a99274cba9a3b7dae4973 HTTP/1.1" 200 235 "-" "PostmanRuntime/7.29.2"
+::1 - - [22/Nov/2022:14:37:18 +0000] "POST /api/v1/users/forgot-password HTTP/1.1" 200 193 "-" "PostmanRuntime/7.29.2"
+::1 - - [22/Nov/2022:14:38:16 +0000] "PATCH /api/v1/users/reset-password/c605f481b1ccb8de3cd014f7473e42eab17c979b21ca938f8badd332715405d6 HTTP/1.1" 200 417 "-" "PostmanRuntime/7.29.2"
