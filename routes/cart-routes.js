@@ -13,8 +13,8 @@ const router = express.Router();
 router
   .route("/")
   .post(protect, createCart)
-  // .get(protect, restrictTo("admin"), getAllCarts);
-  .get(protect, getAllUserCarts);
+  .get(protect, getAllCarts);
+  // .get(protect, getAllUserCarts);
 
 router
   .route("/:id")
