@@ -100,6 +100,27 @@ exports.getOneCart = catchAsync(async (req, res, next) => {
   });
 });
 
+// get user cart
+
+exports.getAllUserCarts = catchAsync(async (req, res, next) => {
+  const cart = await Cart.find({userId: req.user._id}).populate("productId");
+
+  if (!cart) {
+    return next(
+      new ErrorObject(`There is no cart with the id ${req.params.id}`, 400)
+    );
+  }
+
+  // if (req.user._id !== cart.userId.toString()) {
+  //   return next(new ErrorObject(`You are not authorized!!!!!!!`, 403));
+  // }
+
+  res.status(200).json({
+    status: "success",
+    data: cart,
+  });
+});
+
 //Update Cart
 exports.updateCart = catchAsync(async (req, res, next) => {
   const cart = await Cart.findById(req.params.id);

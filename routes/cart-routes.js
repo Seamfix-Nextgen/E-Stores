@@ -6,13 +6,16 @@ const {
   getOneCart,
   updateCart,
   deleteCart,
+  getAllUserCarts,
 } = require("../controllers/cart-controllers");
 const router = express.Router();
 
 router
   .route("/")
   .post(protect, createCart)
-  .get(protect, restrictTo("admin"), getAllCarts);
+  // .get(protect, restrictTo("admin"), getAllCarts);
+  .get(protect, getAllUserCarts);
+
 router
   .route("/:id")
   .get(protect, getOneCart)
