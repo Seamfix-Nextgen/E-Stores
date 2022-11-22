@@ -9,6 +9,6 @@ mongoose
   .then(() => console.log("connected"))
   .catch((err) => console.log(err));
 
-app.listen(port, () => {
+app.listen(port|| process.env.PORT, () => {
   console.log("server is up and running");
 });
