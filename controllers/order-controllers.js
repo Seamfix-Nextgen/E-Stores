@@ -2,7 +2,7 @@ const Order = require("../models/Order");
 const CatchAsync = require("../utils/catch-async");
 const QueryMethod = require("../utils/query");
 const express = require("express");
-const cart = require("../models/Cart");
+const Cart = require("../models/Cart");
 const Flutterwave = require("flutterwave-node-v3");
 fs = require("fs");
 const nodemailer = require("nodemailer");
@@ -41,6 +41,7 @@ exports.checkout = CatchAsync(async (req, res, next) => {
   const userID = req.user._id;
   const user = req.user;
   const order = await Order.findOne({ userID });
+  
   if (order) {
     let payload = {
       card_number: req.body.card_number,
@@ -54,6 +55,7 @@ exports.checkout = CatchAsync(async (req, res, next) => {
       enckey: FLW_ENCRPYTION_KEY,
       tx_ref: `${user.lastName}-${Date.now()}-${order.totalAmount}`,
     };
+
     const response = await flw.Charge.card(payload);
     // Authorizing transactions
     // For PIN transactions
@@ -78,6 +80,8 @@ exports.checkout = CatchAsync(async (req, res, next) => {
           order,
         });
         await Order.findByIdAndDelete(order._id);
+         await Cart.findOneAndDelete(order.cartId);
+       
       }
     }
     return response;

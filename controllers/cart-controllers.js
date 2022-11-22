@@ -67,7 +67,7 @@ exports.createCart = catchAsync(async (req, res, next) => {
 
 //Get all Carts
 exports.getAllCarts = catchAsync(async (req, res, next) => {
-  let queriedCarts = new QueryMethod(Cart.find(), req.query)
+  let queriedCarts = new QueryMethod(Cart.find().populate("productId"), req.query)
     .sort()
     .filter()
     .limit()

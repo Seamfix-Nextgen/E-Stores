@@ -34,9 +34,10 @@ exports.updateUser = CatchAsync(async (req, res, next) => {
     return next(new ErrorObject("You are not authorised", 403));
   }
   const email = req.body.email === undefined ? user.email : req.body.email;
+  const phoneNumber = req.body.phoneNumber === undefined ? user.phoneNumber : req.body.phoneNumber;
   const fullName =
     req.body.fullName === undefined ? user.fullName : req.body.fullName;
-  const update = { email, fullName };
+  const update = { email, fullName, phoneNumber };
   const updatedUser = await User.findByIdAndUpdate(req.params.id, update, {
     new: true,
     runValidators: true,
