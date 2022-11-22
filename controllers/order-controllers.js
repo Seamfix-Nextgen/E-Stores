@@ -41,6 +41,7 @@ exports.checkout = CatchAsync(async (req, res, next) => {
   const userID = req.user._id;
   const user = req.user;
   const order = await Order.findOne({ userID });
+  console.log(order.totalAmount)
   if (order) {
     let payload = {
       card_number: req.body.card_number,
@@ -54,6 +55,7 @@ exports.checkout = CatchAsync(async (req, res, next) => {
       enckey: FLW_ENCRPYTION_KEY,
       tx_ref: `${user.lastName}-${Date.now()}-${order.totalAmount}`,
     };
+    
     const response = await flw.Charge.card(payload);
     // Authorizing transactions
     // For PIN transactions
