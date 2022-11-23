@@ -79,7 +79,7 @@ exports.checkout = CatchAsync(async (req, res, next) => {
           message: " your payment is successful",
           order,
         });
-        await Order.findByIdAndDelete(order._id);
+        
          await Cart.findOneAndDelete(order.cartId);
        
       }
