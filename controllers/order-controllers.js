@@ -80,7 +80,7 @@ exports.checkout = CatchAsync(async (req, res, next) => {
           order,
         });
         
-         await Cart.findOneAndDelete(order.cartId);
+         await Cart.deleteMany({_id:order.cartId});
        
       }
     }
